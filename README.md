@@ -1,7 +1,7 @@
 # es-language-char-filter
 A elasticsearch char filter for dividing multi-language to different fields.
 
-## Background
+## Introduction
 Some analyzers of Elasticsearch are based on language such as __english__ analyzer. They tokenize documents into terms according to the specific grammars. 
 
 However, the analyzers will not bypass the foreign language. When tacking multi-language documents, there is a recommaned solution that creating sub-fields which use the special analyzer depending on its language. The foreign lanuage would impact the accurate and efficiency of search.
@@ -25,7 +25,7 @@ If we switch to Chinese analyzer, for instance, IK, it tokenizes Chinese charact
 POST _analyze
 {
   "analyzer": "ik_smart",
-  "text"
+  "text": "We are going to meet at 中山路."
 }
 ```
 
