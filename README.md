@@ -11,7 +11,7 @@ For instance,
 POST _analyze
 {
   "analyzer": "english",
-  "text": "We are going to meet at 中山路."
+  "text": "We are going to meet at 中山路."
 }
 ```
 The generated terms are,
