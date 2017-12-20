@@ -20,7 +20,7 @@ The generated terms are,
 ```
 "中山路" is actually a road name and it is divided into independent charaters.
 
-If we switch to Chinese analyzer, for instance, IK, it tokenizes Chinese characters correctly but keep English words,
+If we switch to Chinese analyzer, for instance, __IK__, it tokenizes Chinese characters correctly but keep English words,
 ```json
 POST _analyze
 {
