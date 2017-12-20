@@ -36,8 +36,6 @@ The generated terms are,
 
 This time, Chinese characters tokenized correctly, but it also kept English word.
 
-Both of these cases will leed to search issues because the matching score covers all the fields.
-
-This char filter is aiming at filtering languages to make one filed only storing one language terms.
+Both of these cases will leed to search issues because the matching score covers all the fields. This char filter is aiming at filtering languages to make one filed only storing one language terms.
 
 ## Usage
