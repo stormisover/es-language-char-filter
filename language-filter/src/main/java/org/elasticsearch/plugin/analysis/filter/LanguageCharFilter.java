@@ -3,7 +3,9 @@ package org.elasticsearch.plugin.analysis.filter;
 import org.apache.logging.log4j.Logger;
 import org.apache.lucene.analysis.charfilter.BaseCharFilter;
 import org.elasticsearch.common.logging.ESLoggerFactory;
-import org.elasticsearch.plugin.analysis.config.LanguageCharFilterConfiguration;
+import org.elasticsearch.plugin.analysis.config.language.FilterStrategy;
+import org.elasticsearch.plugin.analysis.config.language.FilterStrategyFactory;
+import org.elasticsearch.plugin.analysis.config.Configuration;
 
 import java.io.IOException;
 import java.io.Reader;
@@ -14,11 +16,11 @@ public class LanguageCharFilter extends BaseCharFilter {
     private static final Logger logger = ESLoggerFactory.getLogger(LanguageCharFilter.class.getName());
 
     private Reader transformedInput;
-    private LanguageCharFilterConfiguration config;
+    private FilterStrategy filterStrategy;
 
-    public LanguageCharFilter(Reader in, LanguageCharFilterConfiguration config) {
+    public LanguageCharFilter(Reader in, Configuration config) {
         super(in);
-        this.config = config;
+        filterStrategy = FilterStrategyFactory.getConcreteStrategy(config);
     }
 
     @Override
@@ -39,13 +41,13 @@ public class LanguageCharFilter extends BaseCharFilter {
         transformedInput = new StringReader(filterLanguage(buffered).toString());
     }
 
-    CharSequence filterLanguage(CharSequence input) {
+    private CharSequence filterLanguage(CharSequence input) {
         StringBuilder stringBuilder = new StringBuilder();
         char[] charArray = input.toString().toCharArray();
 
         for(char ch : charArray) {
-            if(Character.UnicodeBlock.of(ch).toString().equals(Character.UnicodeBlock.CJK_UNIFIED_IDEOGRAPHS.toString())) {
-                logger.debug("Non EN Character Found: {}", ch);
+            if(filterStrategy.filter(ch)) {
+                logger.debug("Filtered Character Found: {}", ch);
                 continue;
             }
             stringBuilder.append(ch);

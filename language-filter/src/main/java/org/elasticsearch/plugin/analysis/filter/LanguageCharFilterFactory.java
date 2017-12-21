@@ -1,10 +1,12 @@
 package org.elasticsearch.plugin.analysis.filter;
 
+import org.apache.logging.log4j.Logger;
+import org.elasticsearch.common.logging.ESLoggerFactory;
 import org.elasticsearch.common.settings.Settings;
 import org.elasticsearch.env.Environment;
 import org.elasticsearch.index.IndexSettings;
 import org.elasticsearch.index.analysis.AbstractCharFilterFactory;
-import org.elasticsearch.plugin.analysis.config.LanguageCharFilterConfiguration;
+import org.elasticsearch.plugin.analysis.config.Configuration;
 
 import java.io.Reader;
 
@@ -14,8 +16,6 @@ public class LanguageCharFilterFactory extends AbstractCharFilterFactory {
     private Settings settings;
     public static final String NAME = "language-char-filter";
 
-    public static LanguageCharFilterFactory languageCharFilterFactoryInstance;
-
     public LanguageCharFilterFactory(IndexSettings indexSettings, Environment env, String name, Settings settings) {
         super(indexSettings, name);
         this.environment = env;
@@ -23,10 +23,7 @@ public class LanguageCharFilterFactory extends AbstractCharFilterFactory {
     }
 
     public static LanguageCharFilterFactory getInstance(IndexSettings indexSettings, Environment env, String name, Settings settings) {
-        if(languageCharFilterFactoryInstance == null) {
-            languageCharFilterFactoryInstance = new LanguageCharFilterFactory(indexSettings, env, name, settings);
-        }
-        return languageCharFilterFactoryInstance;
+        return new LanguageCharFilterFactory(indexSettings, env, name, settings);
     }
 
     @Override
@@ -36,6 +33,6 @@ public class LanguageCharFilterFactory extends AbstractCharFilterFactory {
 
     @Override
     public Reader create(Reader tokenStream) {
-        return new LanguageCharFilter(tokenStream, new LanguageCharFilterConfiguration(this.environment, this.settings));
+        return new LanguageCharFilter(tokenStream, new Configuration(this.environment, this.settings));
     }
 }

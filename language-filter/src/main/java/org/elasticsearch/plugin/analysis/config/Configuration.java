@@ -7,26 +7,26 @@ import org.elasticsearch.common.settings.Settings;
 import org.elasticsearch.env.Environment;
 import org.elasticsearch.plugin.analysis.exception.EmptyFilterLanguageException;
 import org.elasticsearch.plugin.analysis.exception.NoSuchFilterLanguageException;
-import org.elasticsearch.plugin.analysis.filter.LanguageCharFilter;
 
-public class LanguageCharFilterConfiguration {
+public class Configuration {
 
-    private static final Logger logger = ESLoggerFactory.getLogger(LanguageCharFilter.class.getName());
+    private static final Logger logger = ESLoggerFactory.getLogger(Configuration.class.getName());
 
     private FilterLocale filterLocale;
 
     @Inject
-    public LanguageCharFilterConfiguration(Environment environment, Settings settings) {
+    public Configuration(Environment environment, Settings settings) {
         try {
-            this.filterLocale = FilterLocale.valueOf(settings.get("lang"));
+            logger.debug("language settings: " + settings.get("lang"));
+            this.filterLocale = FilterLocale.valueOf(settings.get("lang").toLowerCase());
         }
         catch (NullPointerException ex) {
             logger.error("No filter language assigned.", ex);
-            throw new EmptyFilterLanguageException();
+            throw new EmptyFilterLanguageException("No filter language assigned.");
         }
         catch (IllegalArgumentException ex) {
-            logger.error("This language is not supported {}.", settings.get("lang"));
-            throw new NoSuchFilterLanguageException();
+            logger.error("This language is not supported {}.", settings.get("lang"), ex);
+            throw new NoSuchFilterLanguageException("Not support language " + settings.get("lang"));
         }
     }
 
