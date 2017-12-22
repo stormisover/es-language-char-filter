@@ -39,3 +39,25 @@ This time, Chinese characters tokenized correctly, but it also kept English word
 Both of these cases will leed to search issues because the matching score covers all the fields. This char filter is aiming at filtering languages to make one filed only storing one language terms.
 
 ## Usage
+### Install
+1. Download released zip file from: https://github.com/stormisover/es-language-char-filter/releases/download/0.1/language-char-filter-0.1.zip
+
+2. Unzip to elasticsearch/plugin/language-char-filter
+3. Restart elasticsearch
+
+### Definition
+Define your char filter
+```json
+"char_filter": {
+  "language_char_filter" : {
+    "type": "language_char_filter",
+    "lang": "EN"
+  }
+}
+```
+The paramter ```lang``` is used to assign that which language should be filtered. The valid value is,
+| lang       | 
+| ---------- |
+| zh-CN      | 
+| EN         | 
+
