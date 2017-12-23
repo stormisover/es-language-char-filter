@@ -56,8 +56,5 @@ Define your char filter
 ```
 The paramter ```lang``` is used to assign that which language should be filtered. The valid value is,
 
-|lang|
-|:----------:|
-|zh-CN      | 
-|EN         | 
-
+* zh-CN
+* EN
